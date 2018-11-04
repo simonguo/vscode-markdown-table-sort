@@ -1,0 +1,44 @@
+{
+  "name": "vscode-markdown-table-sort",
+  "displayName": "Markdown Table Sort",
+  "description": "Formats Format the Markdown table and sort",
+  "version": "1.0.1",
+  "license": "MIT",
+  "categories": [
+    "Formatters"
+  ],
+  "keywords": [
+    "markdown",
+    "table"
+  ],
+  "publisher": "simonguo",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/simonguo/vscode-markdown-table-sort.git"
+  },
+  "engines": {
+    "vscode": "^1.22.0"
+  },
+  "activationEvents": [
+    "onLanguage:markdown"
+  ],
+  "main": "./out/extension",
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "npm run compile && node ./node_modules/vscode/bin/test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^2.2.42",
+    "@types/node": "^7.0.43",
+    "tslint": "^5.8.0",
+    "typescript": "^2.6.1",
+    "vscode": "^1.1.6"
+  },
+  "dependencies": {
+    "@types/prettier": "^1.13.2",
+    "prettier": "^1.14.3"
+  }
+}
