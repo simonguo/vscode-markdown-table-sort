@@ -2,7 +2,7 @@
   "name": "vscode-markdown-table-sort",
   "displayName": "Markdown Table Sort",
   "description": "Formats Format the Markdown table and sort",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "categories": [
     "Formatters"
@@ -22,6 +22,7 @@
   "activationEvents": [
     "onLanguage:markdown"
   ],
+  "logo": "resources/logo.jpeg",
   "main": "./out/extension",
   "scripts": {
     "vscode:prepublish": "npm run compile",

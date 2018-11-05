@@ -1,10 +1,10 @@
-# [MarkDown Table Sort](https://marketplace.visualstudio.com/items?itemName=simonguo.vscode-markdown-table-sort)
+# [Markdown Table Sort](https://marketplace.visualstudio.com/items?itemName=simonguo.vscode-markdown-table-sort)
 
 ![Installs](https://vsmarketplacebadge.apphb.com/installs-short/simonguo.vscode-markdown-table-sort.svg)
 
-The markdown document is formatted by the prettier and the table is sorted.
 
 
+Markdown table prettier extension for Visual Studio Code. Table sorted by first column.
 
 Eg.
 
@@ -32,6 +32,7 @@ Formated：
 
 
 
-## Reference
+## Referenced
 
+- https://github.com/prettier/prettier
 - https://github.com/TomasHubelbauer/vscode-markdown-table-format
