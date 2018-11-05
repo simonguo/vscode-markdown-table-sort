@@ -1,8 +1,8 @@
 {
   "name": "vscode-markdown-table-sort",
   "displayName": "Markdown Table Sort",
-  "description": "Formats Format the Markdown table and sort",
-  "version": "1.0.2",
+  "description": "Markdown table prettier extension for Visual Studio Code",
+  "version": "1.0.3",
   "license": "MIT",
   "categories": [
     "Formatters"
@@ -22,7 +22,7 @@
   "activationEvents": [
     "onLanguage:markdown"
   ],
-  "logo": "resources/logo.jpeg",
+  "icon": "resources/logo.jpeg",
   "main": "./out/extension",
   "scripts": {
     "vscode:prepublish": "npm run compile",
