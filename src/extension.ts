@@ -30,16 +30,9 @@ class TableFormatter implements DocumentFormattingEditProvider {
     _options: FormattingOptions,
     _token: CancellationToken
   ) {
+    const edits: TextEdit[] = [];
     const tables: Table[] = [];
-    const rangeStart: Position = document.lineAt(0).range.start;
-    const rangeEnd: Position = document.lineAt(document.lineCount - 1).range.end;
-    const range: Range = new Range(rangeStart, rangeEnd);
-    const rawDocument = document.getText(range);
-    const formattedDocument = prettier.format(rawDocument, {
-      parser: document.languageId
-    });
 
-    const edits: TextEdit[] = [TextEdit.replace(range, formattedDocument)];
 
     let table = false;
     for (let index = 0; index < document.lineCount; index++) {
@@ -90,6 +83,7 @@ class TableFormatter implements DocumentFormattingEditProvider {
         )
       );
     }
+
 
     return edits;
   }
