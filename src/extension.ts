@@ -31,6 +31,16 @@ class TableFormatter implements DocumentFormattingEditProvider {
     _token: CancellationToken
   ) {
     const tables: Table[] = [];
+    const rangeStart: Position = document.lineAt(0).range.start;
+    const rangeEnd: Position = document.lineAt(document.lineCount - 1).range.end;
+    const range: Range = new Range(rangeStart, rangeEnd);
+    const rawDocument = document.getText(range);
+    const formattedDocument = prettier.format(rawDocument, {
+      parser: document.languageId
+    });
+
+    const edits: TextEdit[] = [TextEdit.replace(range, formattedDocument)];
+
     let table = false;
     for (let index = 0; index < document.lineCount; index++) {
       const line = document.lineAt(index);
@@ -55,7 +65,6 @@ class TableFormatter implements DocumentFormattingEditProvider {
       currentTable.end = document.lineAt(document.lineCount - 1).range.end;
     }
 
-    const edits: TextEdit[] = [];
     for (const table of tables) {
       const header = [];
 
@@ -72,25 +81,15 @@ class TableFormatter implements DocumentFormattingEditProvider {
         markdown += row + '\n';
       });
 
-
       edits.push(
         TextEdit.replace(
           new Range(table.start, table.end!),
-          markdown
+          prettier.format(markdown, {
+            parser: document.languageId
+          })
         )
       );
     }
-
-    const rangeStart: Position = document.lineAt(0).range.start;
-    const rangeEnd: Position = document.lineAt(document.lineCount - 1).range.end;
-    const range: Range = new Range(rangeStart, rangeEnd);
-    const rawDocument = document.getText(range);
-    const formattedDocument = prettier.format(rawDocument, {
-      parser: document.languageId
-    });
-
-    edits.push(TextEdit.replace(range, formattedDocument));
-
 
     return edits;
   }
