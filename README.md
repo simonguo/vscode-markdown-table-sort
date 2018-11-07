@@ -6,16 +6,20 @@
 
 Markdown table prettier extension for Visual Studio Code. Table sorted by first column.
 
+
+![](./resources/preview.gif)
+
+
 Eg.
 
 ```
-| name   | email        | description |
-| ------ | ------------ | ----------- |
-| zhang  | zhang@a.com  | zhang       |
-| wang   | wang@a.com   | wang        |
-| li     | li@a.com     | li          |
-| amity  | amity@a.com  | amity       |
-| batman | batman@a.com | batman      |
+| name | email | description |
+| -- | -- | --- |
+| zhang | zhang@a.com  | zhang  |
+| wang | wang@a.com   | wang |
+| li | li@a.com   | li  |
+| amity | amity@a.com  | amity  |
+| batman | batman@a.com | batman |
 ```
 
 Formated：
