@@ -2,13 +2,14 @@
 
 ![Installs](https://vsmarketplacebadge.apphb.com/installs-short/simonguo.vscode-markdown-table-sort.svg)
 
+Markdown table prettier extension for Visual Studio Code.
 
+## Features
 
-Markdown table prettier extension for Visual Studio Code. Table sorted by first column.
-
+- Support for formatting tables in documents.
+- Support table sorting, according to the first column of content.
 
 ![](./resources/preview.gif)
-
 
 Eg.
 
@@ -33,8 +34,6 @@ Formated：
 | wang   | wang@a.com   | wang        |
 | zhang  | zhang@a.com  | zhang       |
 ```
-
-
 
 ## Referenced
 
