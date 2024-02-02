@@ -1,6 +1,6 @@
 {
   "name": "vscode-markdown-table-sort",
-  "displayName": "Markdown Table Sort",
+  "displayName": "Markdown Table Sort Prettier",
   "description": "Markdown table prettier extension for Visual Studio Code",
   "version": "1.0.4",
   "license": "MIT",
@@ -17,29 +17,66 @@
     "url": "https://github.com/simonguo/vscode-markdown-table-sort.git"
   },
   "engines": {
-    "vscode": "^1.22.0"
+    "vscode": "^1.85.0"
   },
   "activationEvents": [
     "onLanguage:markdown"
   ],
   "icon": "resources/logo.jpeg",
-  "main": "./out/extension",
+  "main": "./out/extension.js",
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "postinstall": "node ./node_modules/vscode/bin/install",
-    "test": "npm run compile && node ./node_modules/vscode/bin/test"
+    "pretest": "npm run compile",
+    "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/mocha": "^2.2.42",
-    "@types/node": "^7.0.43",
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^16.18.34",
+    "@types/vscode": "^1.85.0",
+    "@types/prettier": "^1.13.2",
+    "@vscode/test-cli": "^0.0.3",
+    "@vscode/test-electron": "^2.3.8",
+    "glob": "^7.1.6",
+    "mocha": "^8.2.1",
     "tslint": "^5.8.0",
-    "typescript": "^2.6.1",
-    "vscode": "^1.1.6"
+    "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@types/prettier": "^1.13.2",
     "prettier": "^1.14.3"
+  },
+  "contributes": {
+    "configuration": [
+      {
+        "title": "Markdown Table Sort Prettier",
+        "properties": {
+          "markdownTableSortPrettier.enable": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable markdown table sort prettier"
+          },
+          "markdownTableSortPrettier.sortOrder": {
+            "type": "string",
+            "default": "asc",
+            "description": "Sort order, asc or desc"
+          },
+          "markdownTableSortPrettier.sortColumn": {
+            "type": "number",
+            "default": 0,
+            "description": "Sort column index"
+          },
+          "markdownTableSortPrettier.ignoreCharacters": {
+            "type": "array",
+            "default": [
+              " ",
+              "~"
+            ],
+            "description": "Ignore characters"
+          }
+        }
+      }
+    ]
   }
 }

@@ -8,7 +8,8 @@ import {
   languages,
   Position,
   DocumentFormattingEditProvider,
-  Range
+  Range,
+  workspace
 } from 'vscode';
 
 const prettier = require('prettier');
@@ -19,8 +20,15 @@ type Table = {
   end?: Position;
 };
 
+function getConfig(name: string) {
+  const value = workspace.getConfiguration().get(`markdownTableSortPrettier.${name}`);
+
+  return value;
+}
+
 export function activate(context: ExtensionContext) {
   const tableFormatter = new TableFormatter();
+
   languages.registerDocumentFormattingEditProvider('markdown', tableFormatter);
 }
 
@@ -32,7 +40,10 @@ class TableFormatter implements DocumentFormattingEditProvider {
   ) {
     const edits: TextEdit[] = [];
     const tables: Table[] = [];
-
+    const enable = getConfig('enable');
+    const sortOrder = getConfig('sortOrder') || 'asc';
+    const sortColumn = getConfig('sortColumn') ? (getConfig('sortColumn') as number) + 1 : 1;
+    const ignoreCharacters = (getConfig('ignoreCharacters') as string[]) || [];
 
     let table = false;
     for (let index = 0; index < document.lineCount; index++) {
@@ -69,7 +80,35 @@ class TableFormatter implements DocumentFormattingEditProvider {
         markdown += row + '\n';
       });
 
-      const body = table.lines.sort();
+      let body = table.lines;
+
+      if (enable) {
+        body = table.lines.sort((a, b) => {
+          const aSplit = a.split('|');
+          const bSplit = b.split('|');
+
+          if (sortColumn) {
+            let aColumn = aSplit[sortColumn];
+            let bColumn = bSplit[sortColumn];
+
+            if (ignoreCharacters) {
+              ignoreCharacters.forEach(character => {
+                aColumn = aColumn.replace(character, '');
+                bColumn = bColumn.replace(character, '');
+              });
+            }
+
+            if (sortOrder === 'asc') {
+              return aColumn.localeCompare(bColumn);
+            } else {
+              return bColumn.localeCompare(aColumn);
+            }
+          }
+
+          return 0;
+        });
+      }
+
       body.forEach(row => {
         markdown += row + '\n';
       });
@@ -83,7 +122,6 @@ class TableFormatter implements DocumentFormattingEditProvider {
         )
       );
     }
-
 
     return edits;
   }
