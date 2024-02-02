@@ -1,6 +1,5 @@
 # [Markdown Table Sort](https://marketplace.visualstudio.com/items?itemName=simonguo.vscode-markdown-table-sort)
 
-![Installs](https://vsmarketplacebadge.apphb.com/installs-short/simonguo.vscode-markdown-table-sort.svg)
 
 Markdown table prettier extension for Visual Studio Code.
 
