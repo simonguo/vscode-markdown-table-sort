@@ -10,6 +10,7 @@ Markdown table prettier extension for Visual Studio Code.
 - Numeric-aware comparison so numbers sort correctly even when stored as strings.
 - Date-aware comparison supporting ISO-style dates (YYYY-MM-DD / YYYY-MM-DD HH:mm:ss).
 - Ignore specific characters such as whitespace or prefixes before comparing.
+- Optional prettier pass after sorting (disable via `markdownTableSortPrettier.usePrettierFormat`).
 
 ![](./resources/preview.gif)
 
@@ -47,7 +48,8 @@ Edit your user or workspace settings to configure the extension.
   "markdownTableSortPrettier.enable": true,
   "markdownTableSortPrettier.sortOrder": "asc",
   "markdownTableSortPrettier.sortColumn": 0,
-  "markdownTableSortPrettier.ignoreCharacters": ["~", " "]
+  "markdownTableSortPrettier.ignoreCharacters": ["~", " "],
+  "markdownTableSortPrettier.usePrettierFormat": true
 }
 ```
 
@@ -55,6 +57,7 @@ Edit your user or workspace settings to configure the extension.
 - `markdownTableSortPrettier.sortOrder` - Sort order, `asc` or `desc`. (default: `asc`)
 - `markdownTableSortPrettier.sortColumn` - Sort column, `0` or `1` or `2`... (default: `0`)
 - `markdownTableSortPrettier.ignoreCharacters` - Ignore characters. (default: `['~',' ']`)
+- `markdownTableSortPrettier.usePrettierFormat` - Run prettier on the table after sorting. (default: `true`)
 
 ## Referenced
 
