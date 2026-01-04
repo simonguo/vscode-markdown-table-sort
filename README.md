@@ -6,7 +6,10 @@ Markdown table prettier extension for Visual Studio Code.
 ## Features
 
 - Support for formatting tables in documents.
-- Support table sorting, according to the first column of content.
+- Sort tables by any column (configurable).
+- Numeric-aware comparison so numbers sort correctly even when stored as strings.
+- Date-aware comparison supporting ISO-style dates (YYYY-MM-DD / YYYY-MM-DD HH:mm:ss).
+- Ignore specific characters such as whitespace or prefixes before comparing.
 
 ![](./resources/preview.gif)
 
