@@ -30,5 +30,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Verify compiled test files
+        run: |
+          ls -la out/test/suite/ || echo "Test files not found"
+          find out/test -name "*.test.js" || echo "No test.js files"
+
       - name: Run VS Code tests
         run: xvfb-run --auto-servernum pnpm test
