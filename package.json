@@ -2,7 +2,7 @@
   "name": "vscode-markdown-table-sort",
   "displayName": "Markdown Table Sort Prettier",
   "description": "Markdown table prettier extension for Visual Studio Code",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "license": "MIT",
   "categories": [
     "Formatters"
@@ -40,6 +40,7 @@
     "@types/prettier": "^1.13.2",
     "@vscode/test-cli": "^0.0.3",
     "@vscode/test-electron": "^2.3.8",
+    "conventional-changelog-cli": "^4.0.0",
     "glob": "^7.1.6",
     "mocha": "^8.2.1",
     "tslint": "^5.8.0",
