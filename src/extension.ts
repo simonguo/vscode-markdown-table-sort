@@ -20,6 +20,56 @@ type Table = {
   end?: Position;
 };
 
+function escapeRegExp(text: string) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+export function sanitizeColumnValue(value: string | undefined, ignoreCharacters: string[]) {
+  // Normalizes cell value before comparison to ensure sorting ignores configured characters
+  if (!value) {
+    return '';
+  }
+
+  let sanitized = value;
+
+  ignoreCharacters.forEach(character => {
+    if (character) {
+      sanitized = sanitized.replace(new RegExp(escapeRegExp(character), 'g'), '');
+    }
+  });
+
+  return sanitized.trim();
+}
+
+export function compareColumnValues(aValue: string, bValue: string, sortOrder: string) {
+  // Performs numeric comparison when possible; falls back to locale-aware string compare
+  const aNumber = Number(aValue);
+  const bNumber = Number(bValue);
+
+  const bothNumeric =
+    aValue !== '' && bValue !== '' && !Number.isNaN(aNumber) && !Number.isNaN(bNumber);
+  const aDateValue = Date.parse(aValue);
+  const bDateValue = Date.parse(bValue);
+  const bothDates =
+    !bothNumeric &&
+    aValue !== '' &&
+    bValue !== '' &&
+    !Number.isNaN(aDateValue) &&
+    !Number.isNaN(bDateValue);
+
+  let comparison: number;
+
+  if (bothNumeric) {
+    comparison = aNumber - bNumber;
+  } else if (bothDates) {
+    comparison = aDateValue - bDateValue;
+  } else {
+    comparison = aValue.localeCompare(bValue, undefined, { numeric: true });
+  }
+
+  return sortOrder === 'asc' ? comparison : -comparison;
+}
+
 function getConfig(name: string) {
   const value = workspace.getConfiguration().get(`markdownTableSortPrettier.${name}`);
 
@@ -41,9 +91,10 @@ class TableFormatter implements DocumentFormattingEditProvider {
     const edits: TextEdit[] = [];
     const tables: Table[] = [];
     const enable = getConfig('enable');
-    const sortOrder = getConfig('sortOrder') || 'asc';
+    const sortOrder = (getConfig('sortOrder') as 'asc' | 'desc') || 'asc';
     const sortColumn = getConfig('sortColumn') ? (getConfig('sortColumn') as number) + 1 : 1;
-    const ignoreCharacters = (getConfig('ignoreCharacters') as string[]) || [];
+    const ignoreCharactersConfig = getConfig('ignoreCharacters');
+    const ignoreCharacters = Array.isArray(ignoreCharactersConfig) ? ignoreCharactersConfig : [];
 
     let table = false;
     for (let index = 0; index < document.lineCount; index++) {
@@ -80,34 +131,13 @@ class TableFormatter implements DocumentFormattingEditProvider {
         markdown += row + '\n';
       });
 
-      let body = table.lines;
-
-      if (enable) {
-        body = table.lines.sort((a, b) => {
-          const aSplit = a.split('|');
-          const bSplit = b.split('|');
-
-          if (sortColumn) {
-            let aColumn = aSplit[sortColumn];
-            let bColumn = bSplit[sortColumn];
-
-            if (ignoreCharacters) {
-              ignoreCharacters.forEach(character => {
-                aColumn = aColumn.replace(character, '');
-                bColumn = bColumn.replace(character, '');
-              });
-            }
-
-            if (sortOrder === 'asc') {
-              return aColumn.localeCompare(bColumn);
-            } else {
-              return bColumn.localeCompare(aColumn);
-            }
-          }
-
-          return 0;
-        });
-      }
+      const body = sortTableLines(
+        table.lines,
+        sortColumn,
+        sortOrder,
+        ignoreCharacters,
+        Boolean(enable)
+      );
 
       body.forEach(row => {
         markdown += row + '\n';
@@ -125,4 +155,28 @@ class TableFormatter implements DocumentFormattingEditProvider {
 
     return edits;
   }
+}
+
+export function sortTableLines(
+  lines: string[],
+  sortColumn: number,
+  sortOrder: 'asc' | 'desc',
+  ignoreCharacters: string[],
+  enable: boolean
+) {
+  if (!enable || !sortColumn) {
+    return lines;
+  }
+
+  const lineCopy = [...lines];
+
+  return lineCopy.sort((a, b) => {
+    const aSplit = a.split('|');
+    const bSplit = b.split('|');
+
+    const aColumn = sanitizeColumnValue(aSplit[sortColumn], ignoreCharacters);
+    const bColumn = sanitizeColumnValue(bSplit[sortColumn], ignoreCharacters);
+
+    return compareColumnValues(aColumn, bColumn, sortOrder);
+  });
 }
