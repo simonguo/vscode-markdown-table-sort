@@ -1,5 +1,10 @@
 import * as assert from 'assert';
-import { compareColumnValues, sanitizeColumnValue, sortTableLines } from '../../extension';
+import {
+  compareColumnValues,
+  formatTableMarkdown,
+  sanitizeColumnValue,
+  sortTableLines
+} from '../../extension';
 
 suite('extension helpers', () => {
   suite('sanitizeColumnValue', () => {
@@ -57,6 +62,14 @@ suite('extension helpers', () => {
       const result = compareColumnValues('2023-01-01', '2022-12-31', 'desc');
       assert.ok(result < 0);
     });
+  });
+});
+
+suite('formatTableMarkdown', () => {
+  test('returns original markdown when usePrettierFormat=false', () => {
+    const markdown = '| a | b |\n| - | - |\n| 1 | 2 |\n';
+    const formatted = formatTableMarkdown(markdown, 'markdown', false);
+    assert.strictEqual(formatted, markdown);
   });
 });
 

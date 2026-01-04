@@ -14,6 +14,16 @@ import {
 
 const prettier = require('prettier');
 
+export function formatTableMarkdown(markdown: string, parser: string, usePrettierFormat: boolean) {
+  if (!usePrettierFormat) {
+    return markdown;
+  }
+
+  return prettier.format(markdown, {
+    parser
+  });
+}
+
 type Table = {
   lines: string[];
   start: Position;
@@ -95,6 +105,9 @@ class TableFormatter implements DocumentFormattingEditProvider {
     const sortColumn = getConfig('sortColumn') ? (getConfig('sortColumn') as number) + 1 : 1;
     const ignoreCharactersConfig = getConfig('ignoreCharacters');
     const ignoreCharacters = Array.isArray(ignoreCharactersConfig) ? ignoreCharactersConfig : [];
+    const usePrettierFormatConfig = getConfig('usePrettierFormat');
+    const usePrettierFormat =
+      typeof usePrettierFormatConfig === 'boolean' ? usePrettierFormatConfig : true;
 
     let table = false;
     for (let index = 0; index < document.lineCount; index++) {
@@ -146,9 +159,7 @@ class TableFormatter implements DocumentFormattingEditProvider {
       edits.push(
         TextEdit.replace(
           new Range(table.start, table.end!),
-          prettier.format(markdown, {
-            parser: document.languageId
-          })
+          formatTableMarkdown(markdown, document.languageId, usePrettierFormat)
         )
       );
     }

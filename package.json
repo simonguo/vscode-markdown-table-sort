@@ -75,6 +75,11 @@
               "~"
             ],
             "description": "Ignore characters"
+          },
+          "markdownTableSortPrettier.usePrettierFormat": {
+            "type": "boolean",
+            "default": true,
+            "description": "Whether to run prettier on the table after sorting"
           }
         }
       }
