@@ -14,28 +14,78 @@ Markdown table prettier extension for Visual Studio Code.
 
 ![](./resources/preview.gif)
 
-Eg.
+## Usage
 
-```
-| name   | email        | description |
-| ------ | ------------ | ----------- |
-| amity  | amity@a.com  | amity       |
-| batman | batman@a.com | batman      |
-| li     | li@a.com     | li          |
-| wang   | wang@a.com   | wang        |
-| zhang  | zhang@a.com  | zhang       |
+The extension automatically formats and sorts markdown tables when you save a `.md` file. You can configure the sort column, order, and other options in your VS Code settings.
+
+## Examples
+
+### String Sorting
+
+**Before:**
+```markdown
+| name   | email        | age |
+| ------ | ------------ | --- |
+| zhang  | zhang@a.com  | 25  |
+| li     | li@a.com     | 30  |
+| wang   | wang@a.com   | 22  |
+| amity  | amity@a.com  | 28  |
+| batman | batman@a.com | 35  |
 ```
 
-Formated：
-
+**After** (sorted by name, column 0, ascending):
+```markdown
+| name   | email        | age |
+| ------ | ------------ | --- |
+| amity  | amity@a.com  | 28  |
+| batman | batman@a.com | 35  |
+| li     | li@a.com     | 30  |
+| wang   | wang@a.com   | 22  |
+| zhang  | zhang@a.com  | 25  |
 ```
-| name   | email        | description |
-| ------ | ------------ | ----------- |
-| amity  | amity@a.com  | amity       |
-| batman | batman@a.com | batman      |
-| li     | li@a.com     | li          |
-| wang   | wang@a.com   | wang        |
-| zhang  | zhang@a.com  | zhang       |
+
+### Numeric Sorting
+
+**Before:**
+```markdown
+| name   | score |
+| ------ | ----- |
+| Alice  | 95    |
+| Bob    | 8     |
+| Carol  | 120   |
+| David  | 42    |
+```
+
+**After** (sorted by score, column 1, ascending):
+```markdown
+| name   | score |
+| ------ | ----- |
+| Bob    | 8     |
+| David  | 42    |
+| Alice  | 95    |
+| Carol  | 120   |
+```
+
+### Date Sorting
+
+**Before:**
+```markdown
+| event      | date       |
+| ---------- | ---------- |
+| Meeting    | 2024-03-15 |
+| Conference | 2024-01-20 |
+| Workshop   | 2024-12-05 |
+| Seminar    | 2024-06-10 |
+```
+
+**After** (sorted by date, column 1, ascending):
+```markdown
+| event      | date       |
+| ---------- | ---------- |
+| Conference | 2024-01-20 |
+| Meeting    | 2024-03-15 |
+| Seminar    | 2024-06-10 |
+| Workshop   | 2024-12-05 |
 ```
 
 ## Configuration
